@@ -1,0 +1,52 @@
+VAGRANTFILE_API_VERSION = "2"
+
+name = "plusbox"
+memory = "512"
+cpu="2"
+type="" # "", "nfs"
+ip = "192.168.10.20"
+home = "/project"
+sync= "."
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  #VM
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  if type
+    config.vm.synced_folder sync, home, type: type
+  else
+    config.vm.synced_folder sync, home
+  end
+
+  config.vm.network :private_network, ip: ip
+
+  config.vm.provider "virtualbox" do |v|
+    v.name = name
+    v.customize ["modifyvm", :id, "--memory", memory]
+    v.customize ["modifyvm", :id, "--cpus", cpu]
+    v.customize ["modifyvm", :id, "--vram", "8"]
+  end
+
+  #PROVISION
+
+  ##update
+  config.vm.provision "shell", inline: "sudo apt-get -y update"
+
+  ##curl
+  config.vm.provision "shell", inline: "which curl || sudo apt-get install -y curl"
+
+  ##bash-completion
+  config.vm.provision "shell", inline: "sudo dpkg -l | grep bash-completion || ( sudo apt-get install -y bash-completion )"
+
+  ##docker
+  config.vm.provision "shell", inline: "which docker || curl -sSL https://get.docker.io/ubuntu/ | sudo sh"
+
+  ##fig
+  config.vm.provision "shell", inline: "which fig || curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > /usr/local/bin/fig; chmod +x /usr/local/bin/fig"
+
+  ##nodejs
+  config.vm.provision "shell", inline: "which npm || sudo apt-get update -y && sudo apt-get -y install python-software-properties python g++ make && sudo add-apt-repository -y ppa:chris-lea/node.js && sudo apt-get update -y && sudo apt-get -y install nodejs"
+
+end

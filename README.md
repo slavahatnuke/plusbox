@@ -4,8 +4,8 @@
  - https://www.virtualbox.org/
 
 ## download
- - `curl -O XXX`
- - XXX
+ - `curl -O https://raw.githubusercontent.com/slavahatnuke/plusbox/master/Vagrantfile.dist`
+ - https://raw.githubusercontent.com/slavahatnuke/plusbox/master/Vagrantfile.dist
 
 ## usage
  - `vagrant up`

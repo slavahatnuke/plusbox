@@ -37,14 +37,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ##curl
   config.vm.provision "shell", inline: "which curl || sudo apt-get install -y curl"
 
+  ##git
+  config.vm.provision "shell", inline: "which git || sudo apt-get install -y git"
+
   ##bash-completion
   config.vm.provision "shell", inline: "sudo dpkg -l | grep bash-completion || ( sudo apt-get install -y bash-completion )"
 
   ##docker
-  config.vm.provision "shell", inline: "which docker || curl -sSL https://get.docker.io/ubuntu/ | sudo sh"
+  ##config.vm.provision "shell", inline: "which docker || curl -sSL https://get.docker.io/ubuntu/ | sudo sh"
 
   ##fig
-  config.vm.provision "shell", inline: "which fig || curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > /usr/local/bin/fig; chmod +x /usr/local/bin/fig"
+  ##config.vm.provision "shell", inline: "which fig || curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > /usr/local/bin/fig; chmod +x /usr/local/bin/fig"
 
   ##nodejs
   config.vm.provision "shell", inline: "which npm || sudo apt-get update -y && sudo apt-get -y install python-software-properties python g++ make && sudo add-apt-repository -y ppa:chris-lea/node.js && sudo apt-get update -y && sudo apt-get -y install nodejs"
